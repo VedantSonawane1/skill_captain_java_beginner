@@ -3,35 +3,31 @@ class TreeNode {
     TreeNode left;
     TreeNode right;
 
-    TreeNode(int val) {
-        this.val = val;
+    TreeNode(int x) {
+        val = x;
     }
 }
 
-public class MaximumDepthBinaryTree {
+public class LeafSimilarTrees {
 
-    public int maxDepth(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        List<Integer> leaves1 = new ArrayList<>();
+        List<Integer> leaves2 = new ArrayList<>();
 
-        int leftDepth = maxDepth(root.left);
-        int rightDepth = maxDepth(root.right);
+        dfs(root1, leaves1);
+        dfs(root2, leaves2);
 
-        return 1 + Math.max(leftDepth, rightDepth);
+        return leaves1.equals(leaves2);
     }
 
-    public static void main(String[] args) {
-        // Example usage
-        TreeNode root = new TreeNode(3);
-        root.left = new TreeNode(9);
-        root.right = new TreeNode(20);
-        root.right.left = new TreeNode(15);
-        root.right.right = new TreeNode(7);
-
-        MaximumDepthBinaryTree depthCalculator = new MaximumDepthBinaryTree();
-        int maxDepth = depthCalculator.maxDepth(root);
-
-        System.out.println("Maximum Depth of the Binary Tree: " + maxDepth);
+    private void dfs(TreeNode node, List<Integer> leaves) {
+        if (node == null) {
+            return;
+        }
+        if (node.left == null && node.right == null) {
+            leaves.add(node.val);
+        }
+        dfs(node.left, leaves);
+        dfs(node.right, leaves);
     }
 }
